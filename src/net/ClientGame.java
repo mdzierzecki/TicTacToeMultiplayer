@@ -10,12 +10,18 @@ import java.net.Socket;
 public class ClientGame extends Game {
 
     private Socket socket;
-    Connection connection;
+    public Connection connection;
 
     public ClientGame() {
         super(Game.PLAYER_TWO);
+
+    }
+
+
+    @Override
+    public void connect(int port, String host) {
         try {
-            socket = new Socket("localhost", Game.PORT);
+            socket = new Socket(host, port);
             connection = new Connection(this, socket);
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,12 +39,19 @@ public class ClientGame extends Game {
     }
 
     @Override
+    public void askForInfo(String string){
+        connection.sendPacket(string);
+    }
+
+    @Override
     public void packReceived(Object obj) {
         if (obj instanceof UpdatePacket) {
             UpdatePacket packet = (UpdatePacket) obj;
 
             fields = packet.getFields();
             currentPlayer = packet.getCurrentPlayer();
+        } else if (obj instanceof String) {
+            System.out.println(obj);
         }
 
         gameWindow.repaint();
@@ -52,4 +65,10 @@ public class ClientGame extends Game {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void addPlayer(int port, String name) {
+
+    }
+
 }

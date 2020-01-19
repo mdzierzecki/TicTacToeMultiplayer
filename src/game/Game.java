@@ -3,6 +3,7 @@ package game;
 import gui.GameWindow;
 import gui.InfoWindow;
 import gui.Window;
+import net.Connection;
 import net.ConnectionsInfo;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public abstract class Game {
     // Pytania:
     // 1. Czy server moze sie uruchamiac od razu jako gra?
     // 2. Punjt 2.1.5 - zawiłe to. Pokazać rozgrywke i zapyac
-    // 3. Czy mozna wyslac projekt IntelliJ?
+    // 3. Czy mozna wyslac projekt IntelliJ? Nie można.
     // 4. Czy zdazy ocenic przed egzaminem?
 
     public static final int  PORT = 6999;
@@ -32,6 +33,8 @@ public abstract class Game {
     protected int currentPlayer;
 
     protected int thisPlayer;
+
+    public Connection connection;
 
     ConnectionsInfo connectionsInfo;
 
@@ -59,7 +62,13 @@ public abstract class Game {
         return false;
     }
 
+    public abstract void addPlayer(int port, String name);
+
+    public abstract void connect(int port, String host);
+
     public abstract void inputReceived(int x, int y);
+
+    public abstract void askForInfo(String string);
 
     public abstract void packReceived(Object obj);
 

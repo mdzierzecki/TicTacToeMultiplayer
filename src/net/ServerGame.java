@@ -7,6 +7,9 @@ import packets.UpdatePacket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerGame extends Game {
 
@@ -15,6 +18,7 @@ public class ServerGame extends Game {
 
     Connection connection;
 
+    Map<String, ArrayList<String>> connectionsMap = new HashMap<>();
 
 
     public ServerGame() {
@@ -23,15 +27,25 @@ public class ServerGame extends Game {
             serverSocket = new ServerSocket(PORT);
             while (true) {
                 socket = serverSocket.accept();
-                System.out.println("CON part 1");
                 connection = new Connection(this, socket);
-                System.out.println("CON part 2");
+                System.out.println("Connected");
+
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+    }
+
+    @Override
+    public void addPlayer(int port, String name) {
+
+    }
+
+    @Override
+    public void connect(int port, String host) {
 
     }
 
@@ -45,12 +59,18 @@ public class ServerGame extends Game {
         gameWindow.repaint();
     }
 
+
+
     @Override
     public void packReceived(Object obj) {
         if (obj instanceof ClientPacket) {
             ClientPacket packet = (ClientPacket) obj;
 
             updateField(packet.getX(), packet.getY());
+        } else if (obj instanceof String) {
+            System.out.println("Ty chuju server");
+            String aa = "Ala";
+            connection.sendPacket(aa);
         }
 
         gameWindow.repaint();
@@ -79,5 +99,14 @@ public class ServerGame extends Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // niepotrzebne
+
+
+
+    @Override
+    public void askForInfo(String string) {
+
     }
 }
