@@ -3,11 +3,8 @@ package game;
 import gui.GameWindow;
 import gui.InfoWindow;
 import gui.Window;
-import net.Connection;
+import net.PacketsHandler;
 import net.ConnectionsInfo;
-
-import javax.swing.*;
-import java.awt.*;
 
 public abstract class Game {
 
@@ -34,7 +31,7 @@ public abstract class Game {
 
     protected int thisPlayer;
 
-    public Connection connection;
+    public PacketsHandler packetsHandler;
 
     ConnectionsInfo connectionsInfo;
 
