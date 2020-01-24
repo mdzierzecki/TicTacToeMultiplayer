@@ -4,7 +4,6 @@ import gui.GameWindow;
 import gui.InfoWindow;
 import gui.Window;
 import net.PacketsHandler;
-import net.ConnectionsInfo;
 
 public abstract class Game {
 
@@ -31,9 +30,6 @@ public abstract class Game {
 
     protected int thisPlayer;
 
-    public PacketsHandler packetsHandler;
-
-    ConnectionsInfo connectionsInfo;
 
     public Game(int thisPlayer) {
         this.thisPlayer = thisPlayer;

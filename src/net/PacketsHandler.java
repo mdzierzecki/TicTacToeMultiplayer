@@ -1,26 +1,29 @@
 package net;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class PacketsHandler implements Runnable {
+public abstract class PacketsHandler implements Runnable{
 
-    private Socket client;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
 
     private boolean running;
 
 
     public PacketsHandler(Socket socket) {
-        this.client = socket;
+
         try {
-            in = new ObjectInputStream(client.getInputStream());
-            out = new ObjectOutputStream(client.getOutputStream());
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -30,11 +33,12 @@ public class PacketsHandler implements Runnable {
 
         while (running) {
             try {
-                Object o = in.readObject();
-                System.out.println("Read object: "+o);
+                Object object = inputStream.readObject();
+                packReceived(object);
+            } catch (EOFException | SocketException e) {
+                running = false;
             } catch (IOException e) {
                 e.printStackTrace();
-
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -42,25 +46,11 @@ public class PacketsHandler implements Runnable {
     }
 
 
-        public void packReceived(Object obj) {
-        if (obj instanceof String) {
-
-            String aa = " " + 2;
-            this.sendPacket(aa);
-
-
-        }
-
-
-//        gameWindow.repaint();
-    }
-
-
     public void sendPacket(Object object) {
         try {
-            out.reset();
-            out.writeObject(object);
-            out.flush();
+            outputStream.reset();
+            outputStream.writeObject(object);
+            outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,13 +58,11 @@ public class PacketsHandler implements Runnable {
 
     public void close() throws IOException {
 
-        in.close();
-        out.close();
+        inputStream.close();
+        outputStream.close();
     }
+
+    public abstract void packReceived(Object obj);
 
 
 }
-
-
-
-

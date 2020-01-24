@@ -100,9 +100,8 @@ public class InfoWindow extends JPanel implements ActionListener {
             System.out.println(" "+ portTextArea.getText() + " " + hostTextArea.getText());
             game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName());
         } else if (s.equals("Info")) {
-            String info = "howmanyplayers";
+            String info = "playersinfo";
             game.askForInfo(info);
-            System.out.println(info);
         }
     }
 

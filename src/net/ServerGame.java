@@ -1,39 +1,36 @@
 package net;
 
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerGame {
 
-    private ServerSocket listener;
+    private ServerSocket serverSocket;
     private Socket socket;
 
-    private static ArrayList<PacketsHandler> clients = new ArrayList<>();
+
+    private static ArrayList<ServerHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(4);
 
 
-    private int playersAmount = 0;
-
-
     public ServerGame() {
-
         try {
-            listener = new ServerSocket(6999);
+            serverSocket = new ServerSocket(7999);
             while (true) {
                 System.out.println("[SERVER] Waiting for client connection");
-                socket = listener.accept();
+                socket = serverSocket.accept();
                 System.out.println("[SERVER] Connected to client");
+                ServerHandler clientThread = new ServerHandler(socket);
 
-                PacketsHandler clientThread = new PacketsHandler(socket);
                 clients.add(clientThread);
-
                 pool.execute(clientThread);
 
-                playersAmount += 1;
                 System.out.println("Connected");
 
             }
@@ -57,7 +54,21 @@ public class ServerGame {
 
 
 
-
+//    @Override
+//    public void packReceived(Object obj) {
+//        if (obj instanceof ClientPacket) {
+//            ClientPacket packet = (ClientPacket) obj;
+//
+//            updateField(packet.getX(), packet.getY());
+//        } else if (obj instanceof String) {
+//            System.out.println("Ty chuju server");
+//            String aa = "Ala";
+//            packetsHandler.sendPacket(aa);
+//        }
+//
+//        gameWindow.repaint();
+//    }
+//
 //    private void updateField(int x, int y) {
 //        System.out.println(x + " | " + y);
 //        if(fields[x][y] == Game.NOBODY) {
@@ -68,19 +79,18 @@ public class ServerGame {
 //                currentPlayer = Game.PLAYER_ONE;
 //            }
 //
-//            connection.sendPacket(new UpdatePacket(fields, currentPlayer));
+//            packetsHandler.sendPacket(new UpdatePacket(fields, currentPlayer));
 //        }
 //
 //    }
 
-
     public void close() {
         try {
-//            client.close();
-            listener.close();
+            serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 }
