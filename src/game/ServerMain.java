@@ -1,6 +1,5 @@
 package game;
 
-import net.ClientGame;
 import net.ServerGame;
 
 

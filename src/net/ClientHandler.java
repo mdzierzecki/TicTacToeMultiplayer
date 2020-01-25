@@ -1,9 +1,9 @@
 package net;
 
+import game.ClientGame;
 import packets.PacketsHandler;
 
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ClientHandler extends PacketsHandler {
 

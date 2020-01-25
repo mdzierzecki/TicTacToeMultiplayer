@@ -1,6 +1,7 @@
-package net;
+package game;
 
 import game.Game;
+import net.ClientHandler;
 import packets.ClientPacket;
 import packets.UpdatePacket;
 
