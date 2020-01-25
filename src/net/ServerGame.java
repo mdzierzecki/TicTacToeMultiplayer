@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,7 +17,9 @@ public class ServerGame {
 
 
     private static ArrayList<ServerHandler> clients = new ArrayList<>();
-    private static ExecutorService pool = Executors.newFixedThreadPool(4);
+    private static ExecutorService pool = Executors.newCachedThreadPool();
+
+    PlayersInfo playersInfo = new PlayersInfo();
 
 
     public ServerGame() {
@@ -26,7 +29,7 @@ public class ServerGame {
                 System.out.println("[SERVER] Waiting for client connection");
                 socket = serverSocket.accept();
                 System.out.println("[SERVER] Connected to client");
-                ServerHandler clientThread = new ServerHandler(socket);
+                ServerHandler clientThread = new ServerHandler(socket, this);
 
                 clients.add(clientThread);
                 pool.execute(clientThread);
@@ -38,6 +41,18 @@ public class ServerGame {
             e.printStackTrace();
         }
 
+
+    }
+
+    public void readPlayerInfo(Map<String, String> playerInfo) {
+        ArrayList<String> newPlayer = new ArrayList<>();
+        newPlayer.add(playerInfo.get("name"));
+        newPlayer.add(playerInfo.get("port"));
+        newPlayer.add(playerInfo.get("ip"));
+
+        playersInfo.add(newPlayer);
+
+        System.out.println(playersInfo);
 
     }
 

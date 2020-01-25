@@ -1,4 +1,4 @@
-package net;
+package packets;
 
 import java.io.EOFException;
 import java.io.IOException;

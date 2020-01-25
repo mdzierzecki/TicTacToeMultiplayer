@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InfoWindow extends JPanel implements ActionListener {
 
@@ -24,6 +27,10 @@ public class InfoWindow extends JPanel implements ActionListener {
     private JButton submitButton;
 
     private JButton infoButton;
+
+    JList jList;
+
+    private ArrayList<ArrayList<String>> playersInfo;
 
 
     public InfoWindow(Game game) {
@@ -74,6 +81,12 @@ public class InfoWindow extends JPanel implements ActionListener {
         infoButton = new JButton("Info");
         infoButton.addActionListener(this);
 
+
+
+        jList = new JList();
+
+        this.add(jList);
+
         this.add(hostLabel);
         this.add(hostTextArea);
 
@@ -98,10 +111,32 @@ public class InfoWindow extends JPanel implements ActionListener {
         if (s.equals("Join")) {
 
             System.out.println(" "+ portTextArea.getText() + " " + hostTextArea.getText());
-            game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName());
+
+            Map<String, String> playerInfo = new HashMap<>();
+            playerInfo.put("name", nameTextArea.getText());
+            game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName(), playerInfo);
         } else if (s.equals("Info")) {
             String info = "playersinfo";
             game.askForInfo(info);
+
+            try {
+                Thread.sleep((long) (Math.random()*500));
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+
+            System.out.println(game.playersInfo);
+
+            DefaultListModel model = new DefaultListModel();
+
+
+            for (ArrayList list : game.playersInfo)
+            {
+                for(Object data : list)
+                    model.addElement(data + "\t");
+            }
+
+            jList.setModel(model);
         }
     }
 

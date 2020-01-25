@@ -3,7 +3,9 @@ package game;
 import gui.GameWindow;
 import gui.InfoWindow;
 import gui.Window;
-import net.PacketsHandler;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public abstract class Game {
 
@@ -30,6 +32,8 @@ public abstract class Game {
 
     protected int thisPlayer;
 
+    public ArrayList<ArrayList<String>> playersInfo;
+
 
     public Game(int thisPlayer) {
         this.thisPlayer = thisPlayer;
@@ -46,6 +50,8 @@ public abstract class Game {
         window.setVisible(true);
 
         currentPlayer = Game.PLAYER_ONE;
+
+        playersInfo = new ArrayList<>();
     }
 
     protected boolean isMyTurn() {
@@ -55,15 +61,16 @@ public abstract class Game {
         return false;
     }
 
-    public abstract void addPlayer(int port, String name);
 
-    public abstract void connect(int port, String host);
+    public abstract void connect(int port, String host, Map<String, String> playerInfo);
 
     public abstract void inputReceived(int x, int y);
 
     public abstract void askForInfo(String string);
 
     public abstract void packReceived(Object obj);
+
+    public abstract void addPlayer(ArrayList<ArrayList<String>> playersInfo);
 
     public abstract void close();
 
