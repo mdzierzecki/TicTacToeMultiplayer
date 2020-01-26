@@ -18,7 +18,6 @@ public class GameWindow extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
-//                    System.out.println(e.getX() + " | " + e.getY());
 
                     game.inputReceived(e.getX() / Game.FIELD_WIDTH, e.getY() / Game.FIELD_HEIGHT);
                 }
@@ -44,7 +43,6 @@ public class GameWindow extends JPanel {
         for (int y = Game.FIELD_HEIGHT; y <= Game.FIELD_HEIGHT *2;  y += Game.FIELD_HEIGHT) {
             g2d.drawLine(0, y, Game.WIDTH, y);
         }
-
 
 
         for(int x=0; x<3; x++) {

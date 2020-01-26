@@ -9,14 +9,6 @@ import java.util.Map;
 
 public abstract class Game {
 
-    // Pytania:
-    // 1. Czy server moze sie uruchamiac od razu jako gra?
-    // 2. Punjt 2.1.5 - zawiłe to. Pokazać rozgrywke i zapyac
-    // 3. Czy mozna wyslac projekt IntelliJ? Nie można.
-    // 4. Czy zdazy ocenic przed egzaminem?
-
-    public static final int  PORT = 6999;
-
     public static final int WIDTH = 1200, HEIGHT = 600;
     public static final int FIELD_WIDTH = 600 / 3, FIELD_HEIGHT = HEIGHT / 3;
 
@@ -66,9 +58,6 @@ public abstract class Game {
     public abstract void inputReceived(int x, int y);
 
     public abstract void askForInfo(String string);
-
-
-    public abstract void packReceived(Object obj);
 
     public abstract void addPlayer(ArrayList<ArrayList<String>> playersInfo);
 

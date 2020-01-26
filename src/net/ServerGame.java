@@ -33,9 +33,6 @@ public class ServerGame {
                 System.out.println("[SERVER] Connected to client");
                 ServerHandler clientThread = new ServerHandler(socket, this);
 
-//                readyClients.add(clientThread);
-//                connectClients();
-
                 clients.add(clientThread);
                 pool.execute(clientThread);
 
@@ -80,49 +77,6 @@ public class ServerGame {
         System.out.println(playersInfo);
 
     }
-
-
-//    @Override
-//    public void inputReceived(int x, int y) {
-//
-//        if(isMyTurn()) {
-//            updateField(x, y);
-//
-//        }
-//        gameWindow.repaint();
-//    }
-
-
-
-//    @Override
-//    public void packReceived(Object obj) {
-//        if (obj instanceof ClientPacket) {
-//            ClientPacket packet = (ClientPacket) obj;
-//
-//            updateField(packet.getX(), packet.getY());
-//        } else if (obj instanceof String) {
-//            System.out.println("Ty chuju server");
-//            String aa = "Ala";
-//            packetsHandler.sendPacket(aa);
-//        }
-//
-//        gameWindow.repaint();
-//    }
-//
-//    private void updateField(int x, int y) {
-//        System.out.println(x + " | " + y);
-//        if(fields[x][y] == Game.NOBODY) {
-//            fields[x][y] = currentPlayer;
-//            if(currentPlayer == Game.PLAYER_ONE) {
-//                currentPlayer = Game.PLAYER_TWO;
-//            } else if (currentPlayer == Game.PLAYER_TWO) {
-//                currentPlayer = Game.PLAYER_ONE;
-//            }
-//
-//            packetsHandler.sendPacket(new UpdatePacket(fields, currentPlayer));
-//        }
-//
-//    }
 
     public void close() {
         try {

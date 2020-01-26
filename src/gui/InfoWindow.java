@@ -129,6 +129,7 @@ public class InfoWindow extends JPanel implements ActionListener {
             Map<String, String> playerInfo = new HashMap<>();
             playerInfo.put("name", nameTextArea.getText());
             game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName(), playerInfo);
+
         } else if (s.equals("Info")) {
             String info = "playersinfo";
             game.askForInfo(info);

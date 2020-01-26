@@ -1,6 +1,5 @@
 package game;
 
-import game.Game;
 import net.ClientHandler;
 import packets.ClientPacket;
 import packets.UpdatePacket;
@@ -17,18 +16,13 @@ public class ClientGame extends Game {
 
     private Socket socket;
     public ClientHandler clientHandler;
-
     private static ExecutorService pool = Executors.newSingleThreadExecutor();
-
     private ArrayList<ArrayList<String>> playersInfo;
 
-    public ClientGame() {
-        playersInfo = new ArrayList<>();
-    }
 
-    public void setPlayer(int player){
-        this.thisPlayer = player;
-    }
+    public ClientGame() { playersInfo = new ArrayList<>(); }
+
+    public void setPlayer(int player){ this.thisPlayer = player; }
 
     @Override
     public void connect(int port, String host, Map<String, String> playerInfo) {
@@ -87,25 +81,6 @@ public class ClientGame extends Game {
         gameWindow.repaint();
     }
 
-
-    @Override
-    public void packReceived(Object obj) {
-        System.out.println("I got it OUT");
-        System.out.println(obj);
-        if (obj instanceof UpdatePacket) {
-            UpdatePacket packet = (UpdatePacket) obj;
-
-            fields = packet.getFields();
-            currentPlayer = packet.getCurrentPlayer();
-        } else if (obj instanceof ClientPacket) {
-            ClientPacket packet = (ClientPacket) obj;
-            updateField(packet.getX(), packet.getY());
-        } else if (obj instanceof String) {
-            System.out.println(obj);
-        }
-
-        gameWindow.repaint();
-    }
 
     @Override
     public void close() {
