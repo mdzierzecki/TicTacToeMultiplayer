@@ -28,6 +28,11 @@ public class InfoWindow extends JPanel implements ActionListener {
 
     private JButton infoButton;
 
+    private JButton playButton;
+
+    private JButton sendButton;
+
+
     JList jList;
 
     private ArrayList<ArrayList<String>> playersInfo;
@@ -81,6 +86,12 @@ public class InfoWindow extends JPanel implements ActionListener {
         infoButton = new JButton("Info");
         infoButton.addActionListener(this);
 
+        playButton = new JButton("Play");
+        playButton.addActionListener(this);
+
+        sendButton = new JButton("Send");
+        sendButton.addActionListener(this);
+
 
 
         jList = new JList();
@@ -99,6 +110,9 @@ public class InfoWindow extends JPanel implements ActionListener {
 
         this.add(submitButton);
         this.add(infoButton);
+
+        this.add(playButton);
+        this.add(sendButton);
 
 
         this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -137,7 +151,18 @@ public class InfoWindow extends JPanel implements ActionListener {
             }
 
             jList.setModel(model);
+        } else if (s.equals("Play")) {
+            String info = "joinme";
+            game.askForInfo(info);
+            System.out.println("Wait for opponent");
+
+        } else if (s.equals("Send")) {
+            String info = "[msg] dupa";
+            game.askForInfo(info);
+
         }
+
+
     }
 
 

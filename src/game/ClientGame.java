@@ -34,7 +34,7 @@ public class ClientGame extends Game {
             socket = new Socket(host, port);
             clientHandler = new ClientHandler(socket, this);
             pool.execute(clientHandler);
-            playerInfo.put("port", ""+port);
+            playerInfo.put("port", "" + port);
 
             InetAddress ip = InetAddress.getLocalHost();
             playerInfo.put("ip", ip.toString());
@@ -75,8 +75,10 @@ public class ClientGame extends Game {
 
     @Override
     public void askForInfo(String string){
+        System.out.println("sent1");
         clientHandler.sendPacket(string);
     }
+
 
     @Override
     public void packReceived(Object obj) {

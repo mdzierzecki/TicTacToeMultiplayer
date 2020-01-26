@@ -34,6 +34,7 @@ public abstract class PacketsHandler implements Runnable{
         while (running) {
             try {
                 Object object = inputStream.readObject();
+                System.out.println("dupka");
                 packReceived(object);
             } catch (EOFException | SocketException e) {
                 running = false;

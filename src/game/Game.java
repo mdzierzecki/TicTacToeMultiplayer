@@ -68,6 +68,7 @@ public abstract class Game {
 
     public abstract void askForInfo(String string);
 
+
     public abstract void packReceived(Object obj);
 
     public abstract void addPlayer(ArrayList<ArrayList<String>> playersInfo);

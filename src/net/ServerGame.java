@@ -4,9 +4,8 @@ package net;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.*;
 
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,14 +21,20 @@ public class ServerGame {
     PlayersInfo playersInfo = new PlayersInfo();
 
 
+    private static ArrayList<ServerHandler> readyClients = new ArrayList<>();
+
+
     public ServerGame() {
         try {
-            serverSocket = new ServerSocket(7999);
+            serverSocket = new ServerSocket(8999);
             while (true) {
                 System.out.println("[SERVER] Waiting for client connection");
                 socket = serverSocket.accept();
                 System.out.println("[SERVER] Connected to client");
                 ServerHandler clientThread = new ServerHandler(socket, this);
+
+//                readyClients.add(clientThread);
+//                connectClients();
 
                 clients.add(clientThread);
                 pool.execute(clientThread);
@@ -42,6 +47,20 @@ public class ServerGame {
         }
 
 
+    }
+
+    public void addReadyClient(ServerHandler client) {
+        readyClients.add(client);
+        connectClients();
+    }
+
+    private void connectClients() {
+        if(readyClients.size() >= 2) {
+            readyClients.get(0).addOpponent(readyClients.get(1));
+            readyClients.get(1).addOpponent(readyClients.get(0));
+            readyClients.remove(0);
+            readyClients.remove(0);
+        }
     }
 
     public void readPlayerInfo(Map<String, String> playerInfo) {
