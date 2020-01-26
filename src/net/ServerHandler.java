@@ -1,6 +1,7 @@
 package net;
 
 import packets.PacketsHandler;
+import packets.UpdatePacket;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -19,13 +20,11 @@ public class ServerHandler extends PacketsHandler {
 
     @Override
     public void packReceived(Object obj) {
-        System.out.println(obj);
         if (obj instanceof String) {
             String received = (String) obj;
             if(received.equals("playersinfo")) {
                 sendPacket(serverGame.playersInfo);
                 System.out.println("packet senttt");
-
             } else if (received.contains("[msg]")) {
                 opponent.sendPacket(obj);
             } else if (received.equals("joinme")) {
@@ -34,6 +33,9 @@ public class ServerHandler extends PacketsHandler {
         } else if (obj instanceof Map) {
             Map map = (Map) obj;
             serverGame.readPlayerInfo(map);
+        } else if(obj instanceof UpdatePacket) {
+            System.out.println(obj);
+            opponent.sendPacket(obj);
         }
     }
 

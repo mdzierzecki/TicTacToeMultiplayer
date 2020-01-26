@@ -23,9 +23,11 @@ public class ClientGame extends Game {
     private ArrayList<ArrayList<String>> playersInfo;
 
     public ClientGame() {
-        super(Game.PLAYER_ONE);
-
         playersInfo = new ArrayList<>();
+    }
+
+    public void setPlayer(int player){
+        this.thisPlayer = player;
     }
 
     @Override
@@ -49,8 +51,8 @@ public class ClientGame extends Game {
         System.out.println(x + " |x " + y);
 
         if(isMyTurn()) {
-            clientHandler.sendPacket(new ClientPacket(x, y));
             updateField(x, y);
+//            clientHandler.sendPacket(new ClientPacket(x, y));
         }
 
         gameWindow.repaint();
@@ -79,19 +81,28 @@ public class ClientGame extends Game {
         clientHandler.sendPacket(string);
     }
 
+    public void set(UpdatePacket packet){
+        fields = packet.getFields();
+        currentPlayer = packet.getCurrentPlayer();
+        gameWindow.repaint();
+    }
+
 
     @Override
     public void packReceived(Object obj) {
         System.out.println("I got it OUT");
+        System.out.println(obj);
         if (obj instanceof UpdatePacket) {
             UpdatePacket packet = (UpdatePacket) obj;
 
             fields = packet.getFields();
             currentPlayer = packet.getCurrentPlayer();
+        } else if (obj instanceof ClientPacket) {
+            ClientPacket packet = (ClientPacket) obj;
+            updateField(packet.getX(), packet.getY());
         } else if (obj instanceof String) {
             System.out.println(obj);
         }
-
 
         gameWindow.repaint();
     }

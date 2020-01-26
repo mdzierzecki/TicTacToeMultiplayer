@@ -35,8 +35,7 @@ public abstract class Game {
     public ArrayList<ArrayList<String>> playersInfo;
 
 
-    public Game(int thisPlayer) {
-        this.thisPlayer = thisPlayer;
+    public Game() {
         window = new Window(this, "Kółko i krzyżyk łonlajn", WIDTH, HEIGHT);
 
 
