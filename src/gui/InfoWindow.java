@@ -261,6 +261,7 @@ public class InfoWindow extends JPanel implements ActionListener {
 
             statusText.setText("Play!");
             statusText.setForeground(new Color(143, 0, 119));
+            playButton.setEnabled(false);
         }
     }
 
