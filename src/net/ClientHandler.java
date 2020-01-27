@@ -19,7 +19,8 @@ public class ClientHandler extends PacketsHandler {
     @Override
     public void packReceived(Object obj) {
         if (obj instanceof String) {
-            System.out.println(obj);
+            String status = (String) obj;
+            clientGame.statusUpdate(status);
 
         } else if (obj instanceof PlayersInfo) {
             System.out.println(obj);

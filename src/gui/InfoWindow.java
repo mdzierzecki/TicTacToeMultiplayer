@@ -141,15 +141,15 @@ public class InfoWindow extends JPanel implements ActionListener {
 
         gbc.gridx = 1;
         gbc.gridy = 3;
-        this.add(logoutButton, gbc);
+        this.add(playButton, gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 3;
-        this.add(playButton, gbc);
+        this.add(infoButton, gbc);
 
         gbc.gridx = 3;
         gbc.gridy = 3;
-        this.add(infoButton, gbc);
+        this.add(logoutButton, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -160,8 +160,7 @@ public class InfoWindow extends JPanel implements ActionListener {
         this.add(statusText, gbc);
 
 
-        String week[]= { "Monday","Tuesday","Wednesday",
-                "Thursday","Friday","Saturday","Sunday"};
+        String empty[]= {""};
         gbc.fill = GridBagConstraints.BOTH;
         gbc.ipadx = 40;      //make this component tall
         gbc.gridwidth = 4;
@@ -169,7 +168,7 @@ public class InfoWindow extends JPanel implements ActionListener {
         gbc.gridy = 5;
         gbc.weightx = 2;
         gbc.weighty = 2;
-        jList = new JList(week);
+        jList = new JList(empty);
         this.add(jList, gbc);
 
 
@@ -181,16 +180,16 @@ public class InfoWindow extends JPanel implements ActionListener {
     {
         String s = e.getActionCommand();
         if (s.equals("Connect")) {
-
-            System.out.println(" "+ portTextArea.getText() + " " + hostTextArea.getText());
-
-            Map<String, String> playerInfo = new HashMap<>();
-            playerInfo.put("name", nameTextArea.getText());
-            game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName(), playerInfo);
+            if (portTextArea.getText().equals("") || hostTextArea.getText().equals("") || nameTextArea.getText().equals("")) {
+                statusText.setText("Wrong request");
+            } else {
+                Map<String, String> playerInfo = new HashMap<>();
+                playerInfo.put("name", nameTextArea.getText());
+                game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName(), playerInfo);
+            }
 
         } else if (s.equals("Players list")) {
-            String info = "playersinfo";
-            game.askForInfo(info);
+            game.askForInfo("playersinfo");
 
             try {
                 Thread.sleep((long) (Math.random()*500));
@@ -202,26 +201,57 @@ public class InfoWindow extends JPanel implements ActionListener {
 
             DefaultListModel model = new DefaultListModel();
 
-
             for (ArrayList list : game.playersInfo)
             {
-                for(Object data : list)
-                    model.addElement(data + "\t");
+                String result = "";
+                for(Object data : list){
+                    result += data + "       ";
+                }
+                model.addElement(result);
             }
 
             jList.setModel(model);
         } else if (s.equals("Play")) {
-            String info = "joinme";
-            game.askForInfo(info);
-            System.out.println("Wait for opponent");
+            if (portTextArea.getText().equals("") || hostTextArea.getText().equals("") || nameTextArea.getText().equals("")) {
+                statusText.setText("Wrong request");
+            } else {
+                game.askForInfo("joinme");
+                System.out.println("Wait for opponent");
+            }
 
         } else if (s.equals("Send")) {
             String info = "[msg] dupa";
             game.askForInfo(info);
 
+        } else {
+            statusText.setText("Wrong request");
         }
 
 
+    }
+
+    public void setStatus(String status) {
+        if (status.equals("connected")) {
+            statusText.setText("Connected");
+            statusText.setForeground(new Color(0, 143, 2));
+            connectButton.setEnabled(false);
+        } else if (status.equals("waitingForOpponent")) {
+            statusText.setText("Waiting for opponent");
+            statusText.setForeground(new Color(143, 129, 0));
+            playButton.setEnabled(false);
+        } else if (status.equals("opponentFound")) {
+            statusText.setText("We found opponent!");
+            statusText.setForeground(new Color(143, 0, 119));
+
+            try {
+                Thread.sleep((long) (Math.random()*1000));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            statusText.setText("Play!");
+            statusText.setForeground(new Color(0, 64, 255));
+        }
     }
 
 

@@ -82,7 +82,6 @@ public class ClientGame extends Game {
     }
 
 
-
     @Override
     public void close() {
         try {
@@ -90,6 +89,10 @@ public class ClientGame extends Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void statusUpdate(String status){
+        infoWindow.setStatus(status);
     }
 
 

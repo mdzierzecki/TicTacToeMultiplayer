@@ -32,7 +32,7 @@ public class ServerGame {
                 socket = serverSocket.accept();
                 System.out.println("[SERVER] Connected to client");
                 ServerHandler clientThread = new ServerHandler(socket, this);
-
+                clientThread.sendPacket("connected");
                 clients.add(clientThread);
                 pool.execute(clientThread);
 
@@ -55,9 +55,9 @@ public class ServerGame {
         if(readyClients.size() >= 2) {
             readyClients.get(0).addOpponent(readyClients.get(1));
             readyClients.get(1).addOpponent(readyClients.get(0));
-            readyClients.get(0).sendPacket("connected");
+            readyClients.get(0).sendPacket("opponentFound");
             readyClients.get(0).sendPacket(1);
-            readyClients.get(1).sendPacket("connected");
+            readyClients.get(1).sendPacket("opponentFound");
             readyClients.get(1).sendPacket(2);
             readyClients.remove(0);
             readyClients.remove(0);

@@ -28,6 +28,11 @@ public class ServerHandler extends PacketsHandler {
                 opponent.sendPacket(obj);
             } else if (received.equals("joinme")) {
                 serverGame.addReadyClient(this);
+                if (this.opponent == null) {
+                    this.sendPacket("waitingForOpponent");
+                }
+
+
             }
         } else if (obj instanceof Map) {
             Map map = (Map) obj;
