@@ -59,7 +59,7 @@ public abstract class Game {
 
     public abstract void inputReceived(int x, int y);
 
-    public abstract void askForInfo(String string);
+    public abstract void sendRequest(String string);
 
     public abstract void addPlayer(ArrayList<ArrayList<String>> playersInfo);
 

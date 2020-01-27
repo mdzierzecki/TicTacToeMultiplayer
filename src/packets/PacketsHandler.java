@@ -60,6 +60,7 @@ public abstract class PacketsHandler implements Runnable{
 
         inputStream.close();
         outputStream.close();
+        running = false;
     }
 
     public abstract void packReceived(Object obj);

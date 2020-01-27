@@ -92,9 +92,11 @@ public class InfoWindow extends JPanel implements ActionListener {
 
         playButton = new JButton("Play");
         playButton.addActionListener(this);
+        playButton.setEnabled(false);
 
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(this);
+        logoutButton.setEnabled(false);
 
         statusLabel = new JLabel();
         statusLabel.setText("Connection: ");
@@ -200,10 +202,12 @@ public class InfoWindow extends JPanel implements ActionListener {
                 Map<String, String> playerInfo = new HashMap<>();
                 playerInfo.put("name", nameTextArea.getText());
                 game.connect(Integer.parseInt(portTextArea.getText()), hostTextArea.getName(), playerInfo);
+                logoutButton.setEnabled(true);
+                playButton.setEnabled(true);
             }
 
         } else if (s.equals("Players list")) {
-            game.askForInfo("playersinfo");
+            game.sendRequest("playersinfo");
 
             try {
                 Thread.sleep((long) (Math.random()*500));
@@ -229,9 +233,19 @@ public class InfoWindow extends JPanel implements ActionListener {
             if (portTextArea.getText().equals("") || hostTextArea.getText().equals("") || nameTextArea.getText().equals("")) {
                 statusText.setText("Wrong request");
             } else {
-                game.askForInfo("joinme");
-                System.out.println("Wait for opponent");
+                game.sendRequest("joinme");
+                logoutButton.setEnabled(false);
             }
+
+        } else if (s.equals("Logout")) {
+
+            game.sendRequest("logout");
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            game.close();
 
         } else {
             statusText.setText("Wrong request");

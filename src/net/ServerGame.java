@@ -55,15 +55,20 @@ public class ServerGame {
         if(readyClients.size() >= 2) {
             readyClients.get(0).addOpponent(readyClients.get(1));
             readyClients.get(1).addOpponent(readyClients.get(0));
+
             readyClients.get(0).sendPacket("opponentFound");
             readyClients.get(0).sendPacket(1);
+
             readyClients.get(1).sendPacket("opponentFound");
             readyClients.get(1).sendPacket(2);
+
             readyClients.remove(0);
             readyClients.remove(0);
-
-
         }
+    }
+
+    public void logoutPlayer(String name){
+        playersInfo.removePlayer(name);
     }
 
     public void readPlayerInfo(Map<String, String> playerInfo) {

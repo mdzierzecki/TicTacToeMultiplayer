@@ -19,6 +19,15 @@ public class PlayersInfo implements Serializable {
         return playersInfo;
     }
 
+    public void removePlayer(String name) {
+        for(ArrayList list: playersInfo) {
+            String str = (String)list.get(0);
+            if(str.contains(name)) {
+                playersInfo.remove(list);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "PlayersInfo{" +

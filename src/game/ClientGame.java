@@ -17,8 +17,6 @@ public class ClientGame extends Game {
     private Socket socket;
     public ClientHandler clientHandler;
     private static ExecutorService pool = Executors.newSingleThreadExecutor();
-    private ArrayList<ArrayList<String>> playersInfo;
-
 
     public ClientGame() { playersInfo = new ArrayList<>(); }
 
@@ -42,8 +40,6 @@ public class ClientGame extends Game {
 
     @Override
     public void inputReceived(int x, int y) {
-        System.out.println(x + " |x " + y);
-
         if(isMyTurn()) {
             updateField(x, y);
         }
@@ -53,7 +49,6 @@ public class ClientGame extends Game {
     }
 
     private void updateField(int x, int y) {
-        System.out.println(x + " | " + y);
         if(fields[x][y] == Game.NOBODY) {
             fields[x][y] = currentPlayer;
             if(currentPlayer == Game.PLAYER_ONE) {
@@ -69,7 +64,7 @@ public class ClientGame extends Game {
 
 
     @Override
-    public void askForInfo(String string){
+    public void sendRequest(String string){
         clientHandler.sendPacket(string);
     }
 
@@ -89,12 +84,12 @@ public class ClientGame extends Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.exit(0);
     }
 
     public void statusUpdate(String status){
         infoWindow.setStatus(status);
     }
-
 
     public void addPlayer(ArrayList<ArrayList<String>> playersInfo) {
         super.playersInfo = playersInfo;
