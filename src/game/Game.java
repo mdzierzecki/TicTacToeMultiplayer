@@ -53,6 +53,8 @@ public abstract class Game {
     }
 
 
+
+
     public abstract void connect(int port, String host, Map<String, String> playerInfo);
 
     public abstract void inputReceived(int x, int y);

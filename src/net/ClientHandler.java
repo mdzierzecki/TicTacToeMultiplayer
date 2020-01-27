@@ -21,7 +21,6 @@ public class ClientHandler extends PacketsHandler {
         if (obj instanceof String) {
             String status = (String) obj;
             clientGame.statusUpdate(status);
-
         } else if (obj instanceof PlayersInfo) {
             System.out.println(obj);
             PlayersInfo playersInfo = (PlayersInfo) obj;
@@ -30,6 +29,7 @@ public class ClientHandler extends PacketsHandler {
             System.out.println("Integer: " + obj);
             int player = (Integer) obj;
             clientGame.setPlayer(player);
+            clientGame.setTurn();
         } else if (obj instanceof UpdatePacket) {
             System.out.println(obj);
             UpdatePacket packet = (UpdatePacket) obj;

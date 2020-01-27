@@ -46,7 +46,6 @@ public class ClientGame extends Game {
 
         if(isMyTurn()) {
             updateField(x, y);
-//            clientHandler.sendPacket(new ClientPacket(x, y));
         }
 
         gameWindow.repaint();
@@ -62,8 +61,8 @@ public class ClientGame extends Game {
             } else if (currentPlayer == Game.PLAYER_TWO) {
                 currentPlayer = Game.PLAYER_ONE;
             }
-
             clientHandler.sendPacket(new UpdatePacket(fields, currentPlayer));
+            setTurn();
         }
 
     }
@@ -78,6 +77,7 @@ public class ClientGame extends Game {
         fields = packet.getFields();
         currentPlayer = packet.getCurrentPlayer();
         gameWindow.repaint();
+        setTurn();
 
     }
 
@@ -98,5 +98,13 @@ public class ClientGame extends Game {
 
     public void addPlayer(ArrayList<ArrayList<String>> playersInfo) {
         super.playersInfo = playersInfo;
+    }
+
+    public void setTurn(){
+        if(isMyTurn()){
+            infoWindow.setTurn("mine");
+        } else {
+            infoWindow.setTurn("opponent");
+        }
     }
 }

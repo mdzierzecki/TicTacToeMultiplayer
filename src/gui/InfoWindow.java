@@ -25,19 +25,17 @@ public class InfoWindow extends JPanel implements ActionListener {
     private JTextArea nameTextArea;
 
     private JButton connectButton;
-
     private JButton infoButton;
-
     private JButton playButton;
-
     private JButton logoutButton;
 
-    JLabel statusLabel;
-    JLabel statusText;
+    private JLabel statusLabel;
+    private JLabel statusText;
 
-    JList jList;
+    private JLabel whosTurnLabel;
+    private JLabel whosTurnText;
 
-    private ArrayList<ArrayList<String>> playersInfo;
+    private JList jList;
 
 
     public InfoWindow(Game game) {
@@ -99,11 +97,19 @@ public class InfoWindow extends JPanel implements ActionListener {
         logoutButton.addActionListener(this);
 
         statusLabel = new JLabel();
-        statusLabel.setText("Status: ");
+        statusLabel.setText("Connection: ");
 
         statusText = new JLabel();
         statusText.setText("Disconnected");
         statusText.setForeground(Color.red);
+
+
+        whosTurnLabel = new JLabel();
+        whosTurnLabel.setText("Status: ");
+
+        whosTurnText = new JLabel();
+        whosTurnText.setText(" - ");
+
 
         gbc.fill = GridBagConstraints.NORTHWEST;
         gbc.weightx = 0.1;
@@ -159,13 +165,21 @@ public class InfoWindow extends JPanel implements ActionListener {
         gbc.gridy = 4;
         this.add(statusText, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        this.add(whosTurnLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        this.add(whosTurnText, gbc);
+
 
         String empty[]= {""};
         gbc.fill = GridBagConstraints.BOTH;
         gbc.ipadx = 40;      //make this component tall
         gbc.gridwidth = 4;
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.weightx = 2;
         gbc.weighty = 2;
         jList = new JList(empty);
@@ -197,7 +211,6 @@ public class InfoWindow extends JPanel implements ActionListener {
                 ex.printStackTrace();
             }
 
-            System.out.println(game.playersInfo);
 
             DefaultListModel model = new DefaultListModel();
 
@@ -211,6 +224,7 @@ public class InfoWindow extends JPanel implements ActionListener {
             }
 
             jList.setModel(model);
+
         } else if (s.equals("Play")) {
             if (portTextArea.getText().equals("") || hostTextArea.getText().equals("") || nameTextArea.getText().equals("")) {
                 statusText.setText("Wrong request");
@@ -218,10 +232,6 @@ public class InfoWindow extends JPanel implements ActionListener {
                 game.askForInfo("joinme");
                 System.out.println("Wait for opponent");
             }
-
-        } else if (s.equals("Send")) {
-            String info = "[msg] dupa";
-            game.askForInfo(info);
 
         } else {
             statusText.setText("Wrong request");
@@ -241,19 +251,27 @@ public class InfoWindow extends JPanel implements ActionListener {
             playButton.setEnabled(false);
         } else if (status.equals("opponentFound")) {
             statusText.setText("We found opponent!");
-            statusText.setForeground(new Color(143, 0, 119));
+            statusText.setForeground(new Color(0, 64, 255));
 
             try {
-                Thread.sleep((long) (Math.random()*1000));
+                Thread.sleep((long) (Math.random()*3000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
             statusText.setText("Play!");
-            statusText.setForeground(new Color(0, 64, 255));
+            statusText.setForeground(new Color(143, 0, 119));
         }
     }
 
 
-
+    public void setTurn(String msg){
+        if(msg.equals("mine")){
+            whosTurnText.setText("Your turn");
+            whosTurnText.setForeground(new Color(58, 65, 255));
+        } else if(msg.equals("opponent")){
+            whosTurnText.setText("Opponent's turn");
+            whosTurnText.setForeground(Color.black);
+        }
+    }
 }
