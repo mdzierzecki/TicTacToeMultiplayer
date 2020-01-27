@@ -24,7 +24,6 @@ public class ServerHandler extends PacketsHandler {
             String received = (String) obj;
             if(received.equals("playersinfo")) {
                 sendPacket(serverGame.playersInfo);
-                System.out.println("packet senttt");
             } else if (received.contains("[msg]")) {
                 opponent.sendPacket(obj);
             } else if (received.equals("joinme")) {
@@ -34,7 +33,6 @@ public class ServerHandler extends PacketsHandler {
             Map map = (Map) obj;
             serverGame.readPlayerInfo(map);
         } else if(obj instanceof UpdatePacket) {
-            System.out.println(obj);
             opponent.sendPacket(obj);
         }
     }

@@ -71,7 +71,6 @@ public class ClientGame extends Game {
 
     @Override
     public void askForInfo(String string){
-        System.out.println("sent1");
         clientHandler.sendPacket(string);
     }
 
@@ -79,7 +78,9 @@ public class ClientGame extends Game {
         fields = packet.getFields();
         currentPlayer = packet.getCurrentPlayer();
         gameWindow.repaint();
+
     }
+
 
 
     @Override
