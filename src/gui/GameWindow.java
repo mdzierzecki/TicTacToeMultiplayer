@@ -48,7 +48,6 @@ public class GameWindow extends JPanel {
             for(int y=0; y<3; y++) {
                 int field = game.getFields()[x][y];
                 if (field != Game.NOBODY) {
-                    System.out.println(x + y);
                         g2d.drawImage(Resources.letters[field - 1], x * Game.FIELD_WIDTH, y * Game.FIELD_HEIGHT,
                                 Game.FIELD_WIDTH - 5, Game.FIELD_HEIGHT - 5, null);
                 }

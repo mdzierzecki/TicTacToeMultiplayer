@@ -281,12 +281,22 @@ public class InfoWindow extends JPanel implements ActionListener {
 
 
     public void setTurn(String msg){
+        System.out.println(msg);
         if(msg.equals("mine")){
             whosTurnText.setText("Your turn");
             whosTurnText.setForeground(new Color(58, 65, 255));
         } else if(msg.equals("opponent")){
             whosTurnText.setText("Opponent's turn");
             whosTurnText.setForeground(Color.black);
+        } else if(msg.contains("Result")) {
+            whosTurnText.setText(msg);
+            whosTurnText.setForeground(Color.black);
+
+            logoutButton.setEnabled(true);
+
+            playButton.setText("New game");
+            playButton.setEnabled(true);
         }
+
     }
 }

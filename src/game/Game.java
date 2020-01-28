@@ -4,6 +4,7 @@ import gui.GameWindow;
 import gui.InfoWindow;
 import gui.Window;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -43,6 +44,15 @@ public abstract class Game {
         currentPlayer = Game.PLAYER_ONE;
 
         playersInfo = new ArrayList<>();
+    }
+
+    protected void showWinner(int winner){
+//        if(winner == Game.NOBODY) {
+//            JOptionPane.showMessageDialog(null, "TIE!");
+//        } else {
+//            JOptionPane.showMessageDialog(null, "The player " + winner + " has won the game!");
+//        }
+
     }
 
     protected boolean isMyTurn() {

@@ -2,6 +2,7 @@ package game;
 
 import net.ClientHandler;
 import packets.ClientPacket;
+import packets.GameEndPacket;
 import packets.UpdatePacket;
 
 import java.io.IOException;
@@ -44,7 +45,6 @@ public class ClientGame extends Game {
             updateField(x, y);
         }
 
-        gameWindow.repaint();
 
     }
 
@@ -58,8 +58,56 @@ public class ClientGame extends Game {
             }
             clientHandler.sendPacket(new UpdatePacket(fields, currentPlayer));
             setTurn();
+
+            gameWindow.repaint();
+
+            checkResult();
         }
 
+    }
+
+    public void checkResult(){
+        int winner = checkWinner();
+        if(winner != Game.NOBODY) {
+            endGame(winner);
+        } else {
+            int emptyCount = 0;
+
+            for(int a=0; a<3; a++) {
+                for(int b=0; b<3; b++) {
+                    if(fields[a][b] == Game.NOBODY) {
+                        emptyCount++;
+                    }
+                }
+            }
+
+            if(emptyCount == 0) {
+                endGame(winner);
+            }
+        }
+    }
+
+    private void endGame(int winner){
+        showWinner(winner);
+        clientHandler.sendPacket(new GameEndPacket(winner));
+    }
+
+    public void showWinner(int winner){
+        if(winner == Game.NOBODY) {
+            infoWindow.setTurn("Result: TIE!");
+        } else {
+            if(this.thisPlayer==winner) {
+                infoWindow.setTurn("Result: You have won!");
+            } else {
+                infoWindow.setTurn("Result: You lose!");
+            }
+        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
+//        super.showWinner(winner);
     }
 
 
@@ -71,6 +119,7 @@ public class ClientGame extends Game {
     public void set(UpdatePacket packet){
         fields = packet.getFields();
         currentPlayer = packet.getCurrentPlayer();
+        checkResult();
         gameWindow.repaint();
         setTurn();
 
@@ -87,6 +136,8 @@ public class ClientGame extends Game {
         System.exit(0);
     }
 
+
+
     public void statusUpdate(String status){
         infoWindow.setStatus(status);
     }
@@ -102,4 +153,64 @@ public class ClientGame extends Game {
             infoWindow.setTurn("opponent");
         }
     }
+
+    private int checkWinner() {
+        for(int player = Game.PLAYER_ONE; player <= Game.PLAYER_TWO; player++) {
+            for(int y=0; y<3; y++) {
+                int playerCount = 0;
+
+                for(int x=0; x<3; x++) {
+                    if(fields[x][y] == player){
+                        playerCount++;
+                    }
+                }
+
+                if(playerCount == 3) {
+                    return player;
+                }
+            }
+
+            for(int x=0; x<3; x++) {
+                int playerCount = 0;
+
+                for (int y=0; y<3; y++) {
+                    if(fields[x][y] == player) {
+                        playerCount++;
+                    }
+                }
+
+                if(playerCount == 3) {
+
+                }
+            }
+
+            int playerCount = 0;
+            for(int coordinate=0; coordinate<3; coordinate++) {
+                if(fields[coordinate][coordinate] == player) {
+                    playerCount++;
+                }
+            }
+
+            if(playerCount == 3) {
+                return player;
+            }
+
+            playerCount = 0;
+
+            for (int coordinate=0; coordinate<3; coordinate++) {
+                if(fields[2-coordinate][coordinate] == player) {
+                    playerCount++;
+                }
+            }
+
+            if(playerCount == 3) {
+                return player;
+            }
+
+        }
+
+        return Game.NOBODY;
+    }
+
+
 }

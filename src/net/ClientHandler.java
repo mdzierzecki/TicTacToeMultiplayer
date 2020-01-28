@@ -2,6 +2,7 @@ package net;
 
 import game.ClientGame;
 import packets.ClientPacket;
+import packets.GameEndPacket;
 import packets.PacketsHandler;
 import packets.UpdatePacket;
 
@@ -22,18 +23,19 @@ public class ClientHandler extends PacketsHandler {
             String status = (String) obj;
             clientGame.statusUpdate(status);
         } else if (obj instanceof PlayersInfo) {
-            System.out.println(obj);
             PlayersInfo playersInfo = (PlayersInfo) obj;
             clientGame.addPlayer(playersInfo.playersInfo);
         } else if (obj instanceof Integer) {
-            System.out.println("Integer: " + obj);
             int player = (Integer) obj;
             clientGame.setPlayer(player);
             clientGame.setTurn();
         } else if (obj instanceof UpdatePacket) {
-            System.out.println(obj);
             UpdatePacket packet = (UpdatePacket) obj;
             clientGame.set(packet);
+            clientGame.checkResult();
+        } else if(obj instanceof GameEndPacket) {
+            GameEndPacket packet = (GameEndPacket) obj;
+            clientGame.showWinner(packet.getWinner());
         }
     }
 
