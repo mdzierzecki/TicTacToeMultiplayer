@@ -13,30 +13,27 @@ public class ServerGame {
 
     private ServerSocket serverSocket;
     private Socket socket;
-
+    public static final int PORT = 8999;
 
     private static ArrayList<ServerHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newCachedThreadPool();
 
     PlayersInfo playersInfo = new PlayersInfo();
 
-
     private static ArrayList<ServerHandler> readyClients = new ArrayList<>();
 
 
     public ServerGame() {
         try {
-            serverSocket = new ServerSocket(8999);
+            serverSocket = new ServerSocket(PORT);
             while (true) {
-                System.out.println("[SERVER] Waiting for client connection");
+                System.out.println("[SERVER] Waiting for client connection on port " + PORT + " on localhost");
                 socket = serverSocket.accept();
-                System.out.println("[SERVER] Connected to client");
                 ServerHandler clientThread = new ServerHandler(socket, this);
                 clientThread.sendPacket("connected");
                 clients.add(clientThread);
                 pool.execute(clientThread);
-
-                System.out.println("Connected");
+                System.out.println("[SERVER] Connected to client");
 
             }
         } catch (IOException e) {
@@ -56,11 +53,13 @@ public class ServerGame {
             readyClients.get(0).addOpponent(readyClients.get(1));
             readyClients.get(1).addOpponent(readyClients.get(0));
 
-            readyClients.get(0).sendPacket("opponentFound");
-            readyClients.get(0).sendPacket(1);
+            int playerX = (int)Math.round(Math.random()) + 1;
 
+            readyClients.get(0).sendPacket(playerX);
+            if (playerX==1) readyClients.get(1).sendPacket(2); else readyClients.get(1).sendPacket(1);
+
+            readyClients.get(0).sendPacket("opponentFound");
             readyClients.get(1).sendPacket("opponentFound");
-            readyClients.get(1).sendPacket(2);
 
             readyClients.remove(0);
             readyClients.remove(0);
@@ -78,8 +77,6 @@ public class ServerGame {
         newPlayer.add(playerInfo.get("ip"));
 
         playersInfo.add(newPlayer);
-
-        System.out.println(playersInfo);
 
     }
 
