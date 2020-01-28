@@ -10,8 +10,8 @@ public class Resources {
 
     static {
         letters = new BufferedImage[2];
-        letters[0] = loadImage("/home/dzierzen/MEGA/Nauka/Studia/3SEM/SKJ/TrzecieZadanie/TicTacToe/src/files/x.png");
-        letters[1] = loadImage("/home/dzierzen/MEGA/Nauka/Studia/3SEM/SKJ/TrzecieZadanie/TicTacToe/src/files/o.png");
+        letters[0] = loadImage("src/files/x.png");
+        letters[1] = loadImage("src/files/o.png");
     }
 
     private static BufferedImage loadImage (String path) {
