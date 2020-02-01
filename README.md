@@ -8,7 +8,7 @@ This simple app is written in Java, using Java Sockets. Firstly you have to run 
 After that we can run our clients (ClientMain.java) - every client separately. 
 
 
-Requirements:
+<b>Requirements:</b>
 </br>
 Java 1.8
 
