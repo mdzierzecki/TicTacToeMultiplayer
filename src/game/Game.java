@@ -29,7 +29,7 @@ public abstract class Game {
 
 
     public Game() {
-        window = new Window(this, "Kółko i krzyżyk łonlajn", WIDTH, HEIGHT);
+        window = new Window(this, "Tic Tac Toe", WIDTH, HEIGHT);
 
 
         gameWindow = new GameWindow(this);

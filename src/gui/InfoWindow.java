@@ -296,7 +296,7 @@ public class InfoWindow extends JPanel implements ActionListener {
 
             playButton.setText("New game");
             playButton.setEnabled(true);
-        }oko
+        }
 
     }
 }
